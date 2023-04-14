@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './interface/user';
 
@@ -13,7 +13,10 @@ export class UserController {
     return this.userService.getUsers();
   }
 
-
+ @Get(':email')
+ getUser(email: string): User{
+  return this.userService.getUser(email);
+ }
   //HTTP POST /users
   @Post()
   postUser(@Body() user: User): User {
@@ -22,7 +25,7 @@ export class UserController {
 
 
   // HTTP DELETE /users/email@gmail.com
-  @Delete()
+  @Delete(':email')
   deleteUser(@Param('email') email:string): User []{
     return this.userService.deleteUser(email);
   }
